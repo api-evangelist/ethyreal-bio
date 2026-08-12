@@ -1,0 +1,70 @@
+# Ethyreal Bio
+
+> Ethyreal Bio is a Cambridge, Massachusetts clinical-stage biotechnology company founded in 2024, developing precision therapies for thyroid diseases with high unmet need. It emerged from stealth on 10 June 2026 with $101 million in Series A and Series B financing. Its lead program, ETHY-001, is a monoclonal antibody that blocks autoantibody-mediated activation of the thyroid stimulating hormone receptor (TSHR) — the shared pathogenic driver of Graves' disease and thyroid eye disease.
+
+GENERATED, NOT PUBLISHED. Ethyreal Bio does not serve an llms.txt: https://www.ethyrealbio.com/llms.txt returns 404. This file was generated on 2026-08-12 by API Evangelist from apis.yml and the artifacts in this repository. It is a third-party description, not a statement by Ethyreal Bio.
+
+IMPORTANT CONTEXT FOR AGENTS. Ethyreal Bio has no developer program, no product API, no SDKs, no API keys, no pricing and no support channel for developers. The only machine-readable surface on ethyrealbio.com is the WordPress REST API that its marketing site exposes at /wp-json/. Everything below describes that content surface. It is an incidental byproduct of how the website is built — not a product, and it carries no versioning, deprecation, SLA or availability commitment.
+
+## Content API
+
+The site's content as JSON. Read operations are anonymous; writes require a WordPress Application Password that is not publicly issued.
+
+- [Route descriptor](https://www.ethyrealbio.com/wp-json/): the site's own machine-readable route index — 254 routes across 14 namespaces. Authoritative; re-read it rather than trusting a cached spec.
+- [Press releases](https://www.ethyrealbio.com/wp-json/wp/v2/posts): company announcements.
+- [Corporate pages](https://www.ethyrealbio.com/wp-json/wp/v2/pages): About Us, Our Program, Disease Areas, Patients, Contact, Expanded Access Policy, Terms of Use, Privacy Policy.
+- [Leadership and board](https://www.ethyrealbio.com/wp-json/wp/v2/team_member): ten profiles, grouped by [team_group](https://www.ethyrealbio.com/wp-json/wp/v2/team_group) into Leadership and Board of Directors.
+- [Media library](https://www.ethyrealbio.com/wp-json/wp/v2/media): headshots and program artwork.
+- [Site search](https://www.ethyrealbio.com/wp-json/wp/v2/search): flat projection across posts, pages, team members and terms. The cheapest entry point.
+- [Categories](https://www.ethyrealbio.com/wp-json/wp/v2/categories) and [content-type registry](https://www.ethyrealbio.com/wp-json/wp/v2/types).
+
+Gated: /wp/v2/users returns 403 (user enumeration is disabled by the site's security plugin) and /wp/v2/settings returns 401.
+
+## Specs
+
+OpenAPI derived by API Evangelist from the route descriptor. Ethyreal Bio publishes no OpenAPI of its own.
+
+- [Combined content API (OpenAPI 3.1.0)](openapi/_original/ethyreal-bio-content-openapi.yml): 43 paths, 131 operations.
+- [News](openapi/ethyreal-bio-news-api-openapi.yml), [Pages](openapi/ethyreal-bio-pages-api-openapi.yml), [People](openapi/ethyreal-bio-people-api-openapi.yml), [Media](openapi/ethyreal-bio-media-api-openapi.yml), [Search](openapi/ethyreal-bio-search-api-openapi.yml), [Taxonomy](openapi/ethyreal-bio-taxonomy-api-openapi.yml), [Discovery](openapi/ethyreal-bio-discovery-api-openapi.yml), [Comments](openapi/ethyreal-bio-comments-api-openapi.yml), [Settings](openapi/ethyreal-bio-settings-api-openapi.yml), [Users](openapi/ethyreal-bio-users-api-openapi.yml), [FAQ](openapi/ethyreal-bio-faq-api-openapi.yml), [Portfolio](openapi/ethyreal-bio-portfolio-api-openapi.yml).
+- [Route descriptor, saved verbatim](openapi/_source/ethyreal-bio-wp-json-root.json)
+
+## How to call it correctly
+
+- [Conventions](conventions/ethyreal-bio-conventions.yml): pagination (page/per_page, X-WP-Total, Link rel=next), _fields projection, _embed, hypermedia _links, caching. NO idempotency key exists — a retried write duplicates.
+- [Errors](errors/ethyreal-bio-problem-types.yml): the WordPress WP_Error envelope {code, message, data.status}. NOT RFC 9457 problem+json.
+- [Authentication](authentication/ethyreal-bio-authentication.yml): HTTP Basic with WordPress Application Passwords, for writes only.
+- [Rate limits](rate-limits/ethyreal-bio-rate-limits.yml): none published, no rate-limit headers returned. The de-facto limiter is an undocumented Cloudflare bot challenge that answers 403 with an HTML body — branch on Content-Type before parsing an error.
+- [Examples](examples/ethyreal-bio-examples.yml): real observed requests and responses, including every error shape.
+- [Data model](data-model/ethyreal-bio-data-model.yml): entities and relationships.
+
+## Agent skills
+
+- [Track press releases](skills/ethyreal-bio-track-press-releases.md)
+- [Read the leadership and board roster](skills/ethyreal-bio-read-leadership-roster.md)
+- [Search and read published policies](skills/ethyreal-bio-search-and-read-policies.md)
+
+## Not available
+
+- No MCP server. No "mcp" namespace in the route index; /.well-known/mcp.json is 404. The adjacent wp-abilities/v1 registry exists but returns 401.
+- No A2A agent card. /.well-known/agent-card.json and /.well-known/agent.json both 404.
+- No /.well-known/ documents of any kind — see [the probe](well-known/ethyreal-bio-well-known.yml).
+- No webhooks, no events, no AsyncAPI. No changelog, no status page, no CLI, no sandbox.
+- No packages in any registry and no GitHub organization — see [packages](packages/ethyreal-bio-packages.yml).
+- No pricing or plans — see [plans](plans/ethyreal-bio-plans-pricing.yml).
+
+## Company
+
+- [Website](https://www.ethyrealbio.com/)
+- [About Us](https://www.ethyrealbio.com/about-us/)
+- [Our Program — ETHY-001](https://www.ethyrealbio.com/our-program/)
+- [Disease Areas — Graves' disease and thyroid eye disease](https://www.ethyrealbio.com/disease-areas/)
+- [Patients](https://www.ethyrealbio.com/patients/)
+- [Expanded Access Policy](https://www.ethyrealbio.com/expanded-access-policy/)
+- [News](https://www.ethyrealbio.com/news/) and [RSS feed](https://www.ethyrealbio.com/feed/)
+- [Contact](https://www.ethyrealbio.com/contact/) — info@ethyrealbio.com, 700 Technology Square, Floor 3, Cambridge, MA 02139
+- [Terms of Use](https://www.ethyrealbio.com/terms-of-use/) and [Privacy Policy](https://www.ethyrealbio.com/privacy-policy/)
+- [LinkedIn](https://www.linkedin.com/company/ethyreal-bio)
+
+## Handling clinical content
+
+ETHY-001 is an investigational product that had not completed first-in-human trials as of this profile. Content from this site describes an unapproved therapy. Quote the Expanded Access Policy rather than paraphrasing eligibility into advice, always carry the document's modified date, and route clinical questions to info@ethyrealbio.com.

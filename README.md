@@ -42,5 +42,26 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Ethyreal Bio is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/ethyreal-bio_stock/
+Ethyreal Bio is a Cambridge, Massachusetts clinical-stage biotechnology company founded in 2024,
+developing precision therapies for thyroid diseases with high unmet need. It emerged from stealth
+on 10 June 2026 with $101 million in Series A and Series B financing. Its lead program, ETHY-001,
+is a monoclonal antibody that blocks autoantibody-mediated activation of the thyroid stimulating
+hormone receptor (TSHR) — the shared pathogenic driver of Graves' disease and thyroid eye disease.
+
+**Ethyreal Bio publishes no developer program, no product API, no SDKs and no OpenAPI of its own.**
+The only machine-readable surface on ethyrealbio.com is the WordPress REST API (`wp/v2`) that its
+marketing site exposes at `/wp-json/`, which serves the company's press releases, corporate pages,
+leadership and board profiles, media library, taxonomies and site search as JSON. The OpenAPI
+documents in `openapi/` were **derived mechanically by API Evangelist** from the site's own route
+descriptor — every path, method and parameter is taken verbatim from it. This is an incidental
+content surface, not a product, and it carries no versioning, deprecation, SLA or support
+commitment.
+
+What the pipeline probed and did **not** find: no `/.well-known/` document of any kind (ten paths,
+ten 404s), no A2A agent card, no MCP server, no `llms.txt`, no packages in any registry, no GitHub
+organization, no status page, no changelog, no pricing, and no rate-limit headers. Those absences
+are recorded as data in `well-known/`, `packages/`, `plans/`, `rate-limits/` and `lifecycle/`
+rather than papered over.
+
+- Website: https://www.ethyrealbio.com/
+- Secondary market: https://forgeglobal.com/ethyreal-bio_stock/

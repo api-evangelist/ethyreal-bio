@@ -1,0 +1,181 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live anonymous requests against https://www.ethyrealbio.com/wp-json/wp/v2 on 2026-08-12. Every
+  request and response fragment below was actually executed and observed; nothing is illustrative.
+note: >-
+  Ethyreal Bio publishes no examples, and the WordPress route descriptor carries none, so these
+  were captured by calling the API. Response bodies are trimmed with the _fields parameter to
+  keep the artifact readable — the trimming is shown in the request URL so each example is
+  reproducible verbatim.
+examples:
+- name: List press releases
+  operation: getPosts
+  spec: openapi/ethyreal-bio-news-api-openapi.yml
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/posts?per_page=1&_fields=id,date,slug,link,title,excerpt,categories
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '2'
+      X-WP-TotalPages: '2'
+      Link: <https://www.ethyrealbio.com/wp-json/wp/v2/posts?per_page=1&page=2>; rel="next"
+      Content-Type: application/json; charset=UTF-8
+    body:
+    - id: 441
+      date: '2026-06-15T16:14:06'
+      slug: ethyreal-bio-presents-first-preclinical-data-on-ethy-001-at-endo-2026-demonstrating-complete-blockade-of-autoantibody-activation-of-tshr-and-differentiated-activity-in-ted
+      link: https://www.ethyrealbio.com/ethyreal-bio-presents-first-preclinical-data-on-ethy-001-at-endo-2026-demonstrating-complete-blockade-of-autoantibody-activation-of-tshr-and-differentiated-activity-in-ted/
+      title:
+        rendered: Ethyreal Bio Presents First Preclinical Data on ETHY-001 at ENDO 2026, Demonstrating
+          Complete Blockade of Autoantibody Activation of TSHR and Differentiated Activity in TED
+      excerpt:
+        rendered: <p>CAMBRIDGE, Mass., June 15, 2026 – Ethyreal Bio (“Ethyreal” or “the Company”),
+          a biotechnology company&#8230;</p>
+        protected: false
+      categories:
+      - 20
+  teaching_point: >-
+    Note the entity-escaped HTML in excerpt.rendered — rendered fields are markup, not text.
+- name: List leadership and board profiles
+  operation: getTeamMember
+  spec: openapi/ethyreal-bio-people-api-openapi.yml
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/team_member?per_page=1&_fields=id,slug,link,title,team_group,featured_media,date
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '10'
+    body:
+    - id: 236
+      date: '2026-05-22T01:36:18'
+      slug: nick-williams-mpharm-phd
+      link: https://www.ethyrealbio.com/team_member/nick-williams-mpharm-phd/
+      title:
+        rendered: Nick Williams, MPharm, Ph.D.
+      featured_media: 0
+      team_group:
+      - 23
+  teaching_point: >-
+    team_group [23] resolves to "Board of Directors". featured_media is 0 — the Avada theme
+    renders portraits from its own field, so do not rely on the WordPress featured image here.
+- name: Resolve the team groups
+  operation: getTeamGroup
+  spec: openapi/ethyreal-bio-people-api-openapi.yml
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/team_group?per_page=5&_fields=id,name,slug,count
+  response:
+    status: 200
+    body:
+    - id: 23
+      count: 7
+      name: Board of Directors
+      slug: board-of-directors
+    - id: 22
+      count: 4
+      name: Leadership
+      slug: leadership
+- name: Site-wide search
+  operation: getSearch
+  spec: openapi/ethyreal-bio-search-api-openapi.yml
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/search?search=ETHY-001&per_page=3
+  response:
+    status: 200
+    body:
+    - id: 441
+      title: Ethyreal Bio Presents First Preclinical Data on ETHY-001 at ENDO 2026, Demonstrating
+        Complete Blockade of Autoantibody Activation of TSHR and Differentiated Activity in TED
+      url: https://www.ethyrealbio.com/ethyreal-bio-presents-first-preclinical-data-on-ethy-001-at-endo-2026-demonstrating-complete-blockade-of-autoantibody-activation-of-tshr-and-differentiated-activity-in-ted/
+      type: post
+      subtype: post
+      _links:
+        self:
+        - embeddable: true
+          href: https://www.ethyrealbio.com/wp-json/wp/v2/posts/441
+          targetHints:
+            allow:
+            - GET
+  teaching_point: >-
+    targetHints.allow is ["GET"] for an anonymous caller — the cheapest way to confirm the
+    surface is read-only for you without attempting a write.
+error_examples:
+- name: Invalid parameter
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/posts?per_page=999
+  response:
+    status: 400
+    body:
+      code: rest_invalid_param
+      message: 'Invalid parameter(s): per_page'
+      data:
+        status: 400
+        params:
+          per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+- name: Unknown resource id
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/posts/999999
+  response:
+    status: 404
+    body:
+      code: rest_post_invalid_id
+      message: Invalid post ID.
+      data:
+        status: 404
+- name: No matching route
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/nonexistent
+  response:
+    status: 404
+    body:
+      code: rest_no_route
+      message: No route was found matching the URL and request method.
+      data:
+        status: 404
+- name: Authentication required
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/settings
+  response:
+    status: 401
+    body:
+      code: rest_forbidden
+      message: Sorry, you are not allowed to do that.
+      data:
+        status: 401
+- name: User enumeration blocked
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/wp/v2/users
+  response:
+    status: 403
+    body:
+      code: aios_user_lists_forbidden
+      message: Listing users is forbidden.
+      data:
+        status: 403
+  teaching_point: >-
+    A plugin-specific code, not WordPress core. This route is permanently closed, not
+    temporarily throttled.
+- name: Cloudflare bot challenge (NOT a JSON error)
+  request:
+    method: GET
+    url: https://www.ethyrealbio.com/wp-json/
+    note: Sent with a non-browser User-Agent.
+  response:
+    status: 403
+    headers:
+      Content-Type: text/html; charset=UTF-8
+      Server: cloudflare
+    body: '<!DOCTYPE html> … <title>Attention Required! | Cloudflare</title> …'
+  teaching_point: >-
+    The single most important failure mode on this host. A 403 here may be HTML from the edge
+    rather than the WordPress JSON envelope, and the same URL returns 200 on retry with a
+    browser User-Agent. Branch on Content-Type before parsing any error.

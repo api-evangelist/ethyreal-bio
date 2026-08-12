@@ -1,0 +1,99 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Ethyreal Bio Content API
+  version: 1.0.0
+extends: openapi/_original/ethyreal-bio-content-openapi.yml
+x-generated: '2026-08-12'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline, 2026-08-12. Captures our annotations over the OpenAPI
+  derived from https://www.ethyrealbio.com/wp-json/ without mutating the derived document.
+actions:
+- target: $.info
+  description: Record the provenance and the fact that this is not a provider-published product API.
+  update:
+    x-apievangelist-derived: true
+    x-apievangelist-provider-published: false
+    x-apievangelist-surface-class: cms-content-api
+    x-apievangelist-note: >-
+      Ethyreal Bio is a clinical-stage biotechnology company with no developer program. This
+      contract describes the WordPress REST API behind its marketing site, derived from the
+      site's own route descriptor. It is an incidental surface, not a product, and carries no
+      versioning, deprecation, SLA or support commitment.
+- target: $.info
+  description: Cross-link the derived artifacts in this repository.
+  update:
+    x-apievangelist-artifacts:
+      conventions: conventions/ethyreal-bio-conventions.yml
+      errors: errors/ethyreal-bio-problem-types.yml
+      data_model: data-model/ethyreal-bio-data-model.yml
+      examples: examples/ethyreal-bio-examples.yml
+      authentication: authentication/ethyreal-bio-authentication.yml
+      lifecycle: lifecycle/ethyreal-bio-lifecycle.yml
+      rate_limits: rate-limits/ethyreal-bio-rate-limits.yml
+      conformance: conformance/ethyreal-bio-conformance.yml
+      skills: skills/_index.yml
+- target: $.info
+  description: Record the observed runtime hazards a generated client will not learn from the spec.
+  update:
+    x-apievangelist-runtime-hazards:
+    - id: cloudflare-bot-challenge
+      description: >-
+        A 403 from this host may be a Cloudflare HTML interstitial rather than the WordPress
+        JSON error envelope. Branch on Content-Type before parsing an error body, and retry
+        with a browser User-Agent.
+    - id: no-idempotency
+      description: >-
+        No Idempotency-Key or equivalent exists. A retried write creates a duplicate resource.
+    - id: no-rate-limit-signal
+      description: >-
+        No RateLimit-* or Retry-After headers are returned. There is no runtime budget signal.
+    - id: rendered-html-fields
+      description: >-
+        title.rendered, content.rendered and excerpt.rendered contain entity-escaped HTML, not
+        plain text.
+    - id: dangling-author-reference
+      description: >-
+        posts.author references /wp/v2/users, which returns 403 aios_user_lists_forbidden to
+        anonymous callers, so the reference cannot be dereferenced.
+- target: $.paths['/wp/v2/posts'].get
+  description: Name what the posts collection actually holds on this site.
+  update:
+    x-apievangelist-content: >-
+      Company press releases. Two were published as of 2026-08-12 (X-WP-Total 2): the 10 June
+      2026 emergence-from-stealth announcement and the 15 June 2026 ENDO 2026 preclinical data
+      release for ETHY-001.
+- target: $.paths['/wp/v2/team_member'].get
+  description: Name what the team_member collection actually holds.
+  update:
+    x-apievangelist-content: >-
+      Ten leadership and board-of-directors profiles, grouped by the team_group taxonomy into
+      Leadership (4) and Board of Directors (7).
+- target: $.paths['/wp/v2/users'].get
+  description: Record the observed closure of the users collection.
+  update:
+    x-apievangelist-gated: true
+    x-apievangelist-observed-status: 403
+    x-apievangelist-observed-code: aios_user_lists_forbidden
+    x-apievangelist-note: >-
+      Closed by the All-In-One Security plugin, which returns its own error code rather than the
+      WordPress default. Treat as permanently unavailable.
+- target: $.paths['/wp/v2/settings'].get
+  description: Record the observed gating of the settings singleton.
+  update:
+    x-apievangelist-gated: true
+    x-apievangelist-observed-status: 401
+    x-apievangelist-observed-code: rest_forbidden
+- target: $.paths['/wp/v2/avada_faq'].get
+  description: Flag the empty theme-scaffolding collections.
+  update:
+    x-apievangelist-empty-collection: true
+    x-apievangelist-note: >-
+      Registered by the Avada theme, anonymously readable, zero published items as of
+      2026-08-12. The route exists because of the theme, not because Ethyreal Bio publishes FAQs.
+- target: $.paths['/wp/v2/avada_portfolio'].get
+  description: Flag the empty theme-scaffolding collections.
+  update:
+    x-apievangelist-empty-collection: true
+    x-apievangelist-note: >-
+      Registered by the Avada theme, anonymously readable, zero published items as of 2026-08-12.

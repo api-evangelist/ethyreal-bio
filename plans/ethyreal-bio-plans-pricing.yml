@@ -1,0 +1,41 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  Full crawl of the ten published pages on https://www.ethyrealbio.com/ (Home, About Us, Our
+  Program, Disease Areas, Patients, News, Contact, Expanded Access Policy, Terms of Use, Privacy
+  Policy) enumerated via the site's own /wp-json/wp/v2/pages collection, 2026-08-12.
+plan_count: 0
+monetized: false
+note: >-
+  Ethyreal Bio publishes NO plans, NO pricing and NO commercial API offering — not a free tier,
+  not an enterprise "contact us" gate, nothing. There is no pricing page and no sign-up or login
+  surface on ethyrealbio.com; the site has ten pages and none of them sell anything. This is the
+  expected result for a pre-commercial clinical-stage biotechnology company: its lead program
+  ETHY-001 is an investigational antibody that had not entered first-in-human trials at the time
+  of this pass, so the company has no product revenue of any kind, let alone API revenue.
+  The WordPress REST API catalogued in this repository is an unmetered, unauthenticated
+  side-effect of how the marketing site is built, not a product. No Pricing, SignUp or Login
+  pointer was written into apis.yml because no such page exists to point at.
+plans: []
+commercial_surface:
+  pricing_page: null
+  sign_up: null
+  login:
+    url: https://www.ethyrealbio.com/wp-admin/
+    note: >-
+      The WordPress admin login exists (as it does on every WordPress site) but it is staff-only
+      site administration, not a developer or customer sign-up. It was deliberately NOT wired as
+      a SignUp or Login pointer — doing so would credit the company with a self-service
+      onboarding surface it does not offer.
+  free_tier: true
+  free_tier_note: >-
+    The content API is anonymously readable at no cost, but this is an absence of metering
+    rather than a published free plan.
+  contact_for_access: https://www.ethyrealbio.com/contact/
+  contact_email: info@ethyrealbio.com
+adjacent_commercial_context:
+  note: >-
+    The only place Ethyreal Bio equity or value is transacted publicly is the secondary market —
+    the company is listed on Forge Global. That is a market for private-company shares, not for
+    API access, and is recorded in apis.yml as type SecondaryMarket.
+  url: https://forgeglobal.com/ethyreal-bio_stock/

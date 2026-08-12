@@ -1,0 +1,139 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/_original/ethyreal-bio-content-openapi.yml plus response headers OBSERVED live against
+  https://www.ethyrealbio.com/wp-json/wp/v2 on 2026-08-12. Ethyreal Bio publishes no API
+  documentation, so nothing here was read from a docs page.
+summary: >-
+  These are WordPress core REST conventions as deployed on ethyrealbio.com, not conventions
+  Ethyreal Bio designed or documents. They are recorded because they are what a client actually
+  has to obey against this host.
+authentication:
+  style: http-basic
+  scheme: WordPress Application Passwords
+  anonymous_read: true
+  note: >-
+    All content collections (posts, pages, media, team_member, team_group, categories, tags,
+    comments, search, types, taxonomies, statuses) are readable with no credential. Every write
+    operation, plus /wp/v2/settings and /wp/v2/users, requires an Application Password. Ethyreal
+    Bio does not issue these to the public.
+  cross_reference: authentication/ethyreal-bio-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    There is NO idempotency contract. WordPress core exposes no Idempotency-Key header, no
+    request-deduplication window and no safe-retry token, and Ethyreal Bio has added none. A
+    retried POST creates a second resource. No Idempotency pointer was written into apis.yml
+    because the capability does not exist — writes here are not safely retryable.
+pagination:
+  style: page-and-size
+  parameters:
+  - name: page
+    in: query
+    default: 1
+    minimum: 1
+  - name: per_page
+    in: query
+    default: 10
+    minimum: 1
+    maximum: 100
+  - name: offset
+    in: query
+    note: Supported on post-type collections as an alternative to page.
+  response_headers:
+  - header: X-WP-Total
+    description: Total records in the collection. Observed as 2 on /wp/v2/posts.
+  - header: X-WP-TotalPages
+    description: Total pages available at the current per_page.
+  link_header:
+    supported: true
+    description: >-
+      RFC 8288 Link header carrying rel="next" and rel="prev". OBSERVED on
+      /wp/v2/posts?per_page=1 as: <.../wp/v2/posts?per_page=1&page=2>; rel="next".
+  cors_note: >-
+    Access-Control-Expose-Headers advertises X-WP-Total, X-WP-TotalPages and Link, so a browser
+    client can read the pagination signal cross-origin.
+field_selection:
+  supported: true
+  parameter: _fields
+  description: >-
+    A comma-separated allowlist of top-level response properties, e.g.
+    ?_fields=id,slug,link,title. Materially reduces payload on the media collection.
+  embedding:
+    parameter: _embed
+    description: >-
+      Inlines linked resources (featured media, taxonomy terms, author) under _embedded instead
+      of requiring a second request against the _links URLs.
+  envelope:
+    parameter: _envelope
+    description: Wraps body, status and headers into a single JSON object for transports that cannot read headers.
+hypermedia:
+  supported: true
+  field: _links
+  description: >-
+    Every resource carries an HAL-style _links object with self, collection and about relations,
+    plus targetHints.allow listing the methods permitted on that resource for the CURRENT
+    caller. For an anonymous client targetHints.allow is ["GET"], which is the cheapest way to
+    discover that writes are gated without attempting one.
+filtering_and_sorting:
+  parameters:
+  - search
+  - include
+  - exclude
+  - slug
+  - order (asc|desc)
+  - orderby (date, id, title, slug, relevance, include, modified)
+  - after / before (ISO 8601 date bounds on post-type collections)
+  - categories / categories_exclude / tags / tags_exclude
+  - team_group (on /wp/v2/team_member)
+  - status (defaults to publish; other values require authentication)
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  note: >-
+    The version is the namespace segment in the path. It is WordPress core's version, not
+    Ethyreal Bio's — Ethyreal Bio does not version this surface, publishes no versioning policy
+    and gives no notice when the underlying WordPress, Avada theme or plugin set changes.
+  cross_reference: lifecycle/ethyreal-bio-lifecycle.yml
+error_envelope:
+  format: wp-error
+  content_type: application/json
+  shape: '{code, message, data:{status}}'
+  rfc9457: false
+  note: >-
+    A 403 from this host may be a Cloudflare HTML interstitial rather than the JSON envelope.
+    Clients must branch on content-type, not status alone.
+  cross_reference: errors/ethyreal-bio-problem-types.yml
+rate_limit_signaling:
+  headers_published: false
+  note: >-
+    No X-RateLimit-*, no RateLimit-* and no Retry-After were observed on any response. The only
+    throttle is an undocumented Cloudflare bot challenge.
+  cross_reference: rate-limits/ethyreal-bio-rate-limits.yml
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation header is returned. The only edge identifiers are Cloudflare's
+    cf-ray and the WP Engine x-cache / x-cache-group headers, neither of which Ethyreal Bio
+    documents or will honour in a support request — there is no support channel for this API.
+caching:
+  observed_headers:
+  - 'cache-control: max-age=600, must-revalidate'
+  - 'x-cacheable: SHORT'
+  - 'x-cache: MISS|HIT (WP Engine)'
+  - 'cf-cache-status: MISS|HIT (Cloudflare)'
+  - last-modified
+  conditional_requests: >-
+    Last-Modified is returned; ETag was not observed. Poll with If-Modified-Since rather than
+    re-fetching collections.
+  note: Responses are cacheable for 600 seconds, so near-real-time polling gains nothing.
+content_negotiation:
+  request: application/json
+  response: application/json; charset=UTF-8
+  html_fields: >-
+    Rendered fields (title.rendered, content.rendered, excerpt.rendered) contain HTML with
+    entity escaping and are NOT plain text. An agent summarizing this content must strip markup.
+robots:
+  x_robots_tag: noindex
+  note: The API responses themselves are served with X-Robots-Tag noindex.

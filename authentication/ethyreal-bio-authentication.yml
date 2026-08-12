@@ -1,0 +1,30 @@
+generated: '2026-08-12'
+method: derived
+source: openapi/ethyreal-bio-comments-api-openapi.yml, openapi/ethyreal-bio-discovery-api-openapi.yml,
+  openapi/ethyreal-bio-faq-api-openapi.yml, openapi/ethyreal-bio-media-api-openapi.yml, openapi/ethyreal-bio-news-api-openapi.yml,
+  openapi/ethyreal-bio-pages-api-openapi.yml, openapi/ethyreal-bio-people-api-openapi.yml, openapi/ethyreal-bio-portfolio-api-openapi.yml,
+  openapi/ethyreal-bio-search-api-openapi.yml, openapi/ethyreal-bio-settings-api-openapi.yml,
+  openapi/ethyreal-bio-taxonomy-api-openapi.yml, openapi/ethyreal-bio-users-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: applicationPassword
+  type: http
+  scheme: basic
+  description: WordPress Application Passwords, advertised by the site at https://www.ethyrealbio.com/wp-json/
+    under authentication.application-passwords; authorization endpoint https://www.ethyrealbio.com/wp-admin/authorize-application.php.
+    Read operations on wp/v2 content routes are anonymous.
+  sources:
+  - openapi/ethyreal-bio-comments-api-openapi.yml
+  - openapi/ethyreal-bio-discovery-api-openapi.yml
+  - openapi/ethyreal-bio-faq-api-openapi.yml
+  - openapi/ethyreal-bio-media-api-openapi.yml
+  - openapi/ethyreal-bio-news-api-openapi.yml
+  - openapi/ethyreal-bio-pages-api-openapi.yml
+  - openapi/ethyreal-bio-people-api-openapi.yml
+  - openapi/ethyreal-bio-portfolio-api-openapi.yml
+  - openapi/ethyreal-bio-search-api-openapi.yml
+  - openapi/ethyreal-bio-settings-api-openapi.yml
+  - openapi/ethyreal-bio-taxonomy-api-openapi.yml
+  - openapi/ethyreal-bio-users-api-openapi.yml

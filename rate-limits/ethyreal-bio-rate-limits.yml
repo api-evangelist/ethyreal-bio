@@ -1,0 +1,57 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Response headers observed live on https://www.ethyrealbio.com/wp-json/wp/v2/* on 2026-08-12.
+  Ethyreal Bio publishes no API documentation, so there is no docs page to cite.
+limit_count: 0
+published: false
+note: >-
+  Ethyreal Bio documents NO rate limits, and no rate-limit response headers are returned. This
+  is an honest zero, not an unchecked field: every probed response was inspected and carried no
+  X-RateLimit-*, no RateLimit-* (RFC 9331 style) and no Retry-After. An agent gets no runtime
+  budget signal from this API whatsoever.
+limits: []
+headers_observed:
+  rate_limit_headers: []
+  retry_after: false
+  note: >-
+    The complete set of non-standard headers returned was X-WP-Total, X-WP-TotalPages, Link,
+    Allow, X-Powered-By (WP Engine), X-Cacheable, X-Cache, X-Cache-Group, X-Robots-Tag and
+    Cloudflare's cf-ray / cf-cache-status. None of them carry a quota.
+de_facto_throttle:
+  mechanism: cloudflare-bot-management
+  status_code: 403
+  content_type: text/html
+  body: Cloudflare "Attention Required!" interstitial
+  observed: true
+  evidence:
+  - url: https://www.ethyrealbio.com/wp-json/
+    status: 403
+    note: Returned mid-session on a path that had returned 200 moments earlier.
+  - url: https://www.ethyrealbio.com/feed/
+    status: 403
+    note: Returned 200 on retry with a browser User-Agent.
+  description: >-
+    The effective limiter is Cloudflare bot management in front of WP Engine, not an API quota.
+    It is triggered by client fingerprint rather than request volume — a non-browser User-Agent
+    is challenged where a browser User-Agent on the same path succeeds. There is no header that
+    announces it, no Retry-After telling a client how long to wait, and the 403 body is HTML,
+    so a JSON client will fail to parse the error as well as fail the request.
+  consequence_for_agents: >-
+    An automated consumer cannot distinguish "you are over quota" from "you are blocked as a
+    bot" from "you lack permission" — all three are 403. Back off on any 403 whose content-type
+    is not application/json, and treat it as a client-identity problem rather than a quota one.
+crawl_policy:
+  robots_txt: https://www.ethyrealbio.com/robots.txt
+  crawl_delay: 10
+  disallow: []
+  note: >-
+    robots.txt allows all user agents (an empty Disallow) but requests a 10-second crawl delay.
+    That is the only throttling guidance Ethyreal Bio publishes anywhere, and it governs
+    crawlers rather than API clients.
+caching_as_mitigation:
+  cache_control: max-age=600, must-revalidate
+  note: >-
+    Responses are cacheable for 10 minutes and Last-Modified is returned, so conditional
+    requests are the practical way to stay under the radar. There is nothing to poll faster
+    for: the site publishes roughly one press release a month.

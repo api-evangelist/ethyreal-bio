@@ -1,0 +1,73 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/_original/ethyreal-bio-content-openapi.yml and live probes of ethyrealbio.com,
+  2026-08-12. No provider lifecycle documentation exists to search.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  docs: null
+  note: >-
+    wp/v2 is the WordPress core namespace version, not a version Ethyreal Bio controls or
+    publishes. The company makes no versioning commitment about this surface.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation policy, no RFC 8594 Sunset or Deprecation header support, and no advance
+    notice mechanism. No Deprecation pointer was written into apis.yml because there is no
+    policy to point at.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in any openapi/ document carries deprecated: true. The route descriptor served at
+  /wp-json/ marks nothing as deprecated.
+status_page:
+  url: null
+  published: false
+  note: >-
+    Ethyreal Bio publishes no status page. status.ethyrealbio.com is NXDOMAIN and no third-party
+    status host (Statuspage, Instatus, Better Uptime) was found. No StatusPage pointer was
+    written into apis.yml.
+sla:
+  url: null
+  uptime_target: null
+  note: No SLA of any kind. The content API is best-effort and carries no availability commitment.
+changelog:
+  url: null
+  published: false
+  note: >-
+    No API changelog. The nearest thing to a change feed is the press-release RSS at
+    https://www.ethyrealbio.com/feed/, which announces corporate news rather than API changes.
+    No ChangeLog pointer was written.
+support:
+  channel: https://www.ethyrealbio.com/contact/
+  email: info@ethyrealbio.com
+  developer_support: false
+  note: >-
+    The contact form is a general corporate enquiry channel. There is no developer support, no
+    forum, no issue tracker and no status incident channel for this API.
+stability_assessment:
+  stability: incidental
+  breaking_change_risk: high
+  reasoning: >-
+    This surface is not a product and nobody at Ethyreal Bio is treating it as an interface with
+    consumers. Its shape is determined by the WordPress version, the Avada theme's registered
+    custom post types (team_member, avada_faq, avada_portfolio) and the installed plugin set —
+    a theme change, a plugin change or a security-plugin policy change can add, remove or close
+    routes with no notice, no version bump and no announcement. The All-In-One Security plugin
+    already closes /wp/v2/users with a non-core error code, which demonstrates that route
+    availability here is a site-administration decision rather than an API contract.
+  advice: >-
+    Re-read the route index at https://www.ethyrealbio.com/wp-json/ before each run rather than
+    trusting a cached spec, and treat any route disappearing as expected behaviour.
+company_lifecycle:
+  stage: clinical-stage
+  founded: 2024
+  emerged_from_stealth: '2026-06-10'
+  note: >-
+    Recorded for context on how young and how volatile this surface is: the company launched
+    publicly in June 2026, and the website itself was first published weeks earlier — the
+    earliest content in the CMS dates to 2026-05-13. Its lead program ETHY-001 was scheduled to
+    enter first-in-human trials in the second half of 2026.

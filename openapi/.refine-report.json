@@ -1,0 +1,19 @@
+{
+  "provider": "ethyreal-bio",
+  "derived_from": "https://www.ethyrealbio.com/wp-json/",
+  "derived_on": "2026-08-12",
+  "outputs": [
+    "ethyreal-bio-comments-api-openapi.yml",
+    "ethyreal-bio-discovery-api-openapi.yml",
+    "ethyreal-bio-faq-api-openapi.yml",
+    "ethyreal-bio-media-api-openapi.yml",
+    "ethyreal-bio-news-api-openapi.yml",
+    "ethyreal-bio-pages-api-openapi.yml",
+    "ethyreal-bio-people-api-openapi.yml",
+    "ethyreal-bio-portfolio-api-openapi.yml",
+    "ethyreal-bio-search-api-openapi.yml",
+    "ethyreal-bio-settings-api-openapi.yml",
+    "ethyreal-bio-taxonomy-api-openapi.yml",
+    "ethyreal-bio-users-api-openapi.yml"
+  ]
+}

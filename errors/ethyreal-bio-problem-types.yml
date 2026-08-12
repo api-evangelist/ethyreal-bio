@@ -1,0 +1,112 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/_original/ethyreal-bio-content-openapi.yml (4xx responses), enriched with error
+  envelopes OBSERVED live against https://www.ethyrealbio.com/wp-json/wp/v2 on 2026-08-12.
+format: wp-error
+format_note: >-
+  Ethyreal Bio's content API does NOT use RFC 9457 problem+json. Every error is the WordPress
+  WP_Error envelope serialized to application/json — a flat object of {code, message, data} where
+  data.status carries the HTTP status. There is no `type` URI, no `title`, no `detail` and no
+  problem+json content type, so an agent cannot dereference an error to documentation. The
+  machine-readable discriminator is the string in `code`.
+envelope:
+  content_type: application/json
+  fields:
+  - field: code
+    type: string
+    description: Machine-readable error code. This is the only stable discriminator.
+  - field: message
+    type: string
+    description: Human-readable message, localized to the site language.
+  - field: data.status
+    type: integer
+    description: The HTTP status, repeated inside the body.
+  - field: data.params
+    type: object
+    description: Present on rest_invalid_param only — a map of parameter name to the violated rule.
+  - field: data.details
+    type: object
+    description: >-
+      Present on rest_invalid_param only — a per-parameter nested WP_Error with its own code
+      (e.g. rest_out_of_bounds).
+problems:
+- status: 400
+  code: rest_invalid_param
+  title: Invalid parameter
+  message: 'Invalid parameter(s): per_page'
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/wp/v2/posts?per_page=999
+  remediation: >-
+    Correct the named parameter to the bounds declared in the OpenAPI schema. Collection
+    endpoints cap per_page at 100 and page at 1 or greater.
+  nested_codes:
+  - rest_out_of_bounds
+  source_operation: openapi/ethyreal-bio-news-api-openapi.yml#getPosts
+- status: 401
+  code: rest_forbidden
+  title: Authentication required
+  message: Sorry, you are not allowed to do that.
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/wp/v2/settings
+  remediation: >-
+    Authenticate with a WordPress Application Password over HTTP Basic. Ethyreal Bio issues
+    these from https://www.ethyrealbio.com/wp-admin/authorize-application.php and does not
+    offer them to the public — this route is staff-only.
+  source_operation: openapi/ethyreal-bio-settings-api-openapi.yml#getSettings
+- status: 403
+  code: aios_user_lists_forbidden
+  title: Listing users is forbidden
+  message: Listing users is forbidden.
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/wp/v2/users
+  remediation: >-
+    None available to an anonymous client. This is not the WordPress default — it is emitted by
+    the All-In-One Security plugin, which Ethyreal Bio has configured to block author
+    enumeration outright. Treat /wp/v2/users as permanently closed.
+  note: A plugin-specific code, not part of WordPress core's error vocabulary.
+  source_operation: openapi/ethyreal-bio-users-api-openapi.yml#getUsers
+- status: 404
+  code: rest_post_invalid_id
+  title: Invalid post ID
+  message: Invalid post ID.
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/wp/v2/posts/999999
+  remediation: >-
+    The route matched but no resource carries that id. Re-read the collection to obtain valid
+    ids; ids are integers and are not reused.
+  variants:
+  - rest_post_invalid_id
+  - rest_term_invalid
+  - rest_invalid_id
+  source_operation: openapi/ethyreal-bio-news-api-openapi.yml#getPostsById
+- status: 404
+  code: rest_no_route
+  title: No route found
+  message: No route was found matching the URL and request method.
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/wp/v2/nonexistent
+  remediation: >-
+    Re-read the route index at https://www.ethyrealbio.com/wp-json/ — it is the authoritative
+    list of what exists. Note this is also returned when the path exists but the METHOD does
+    not, so check the Allow response header.
+  source_operation: openapi/_original/ethyreal-bio-content-openapi.yml
+- status: 403
+  code: cloudflare-bot-challenge
+  title: Cloudflare bot challenge (not a WordPress error)
+  observed: true
+  observed_at: https://www.ethyrealbio.com/wp-json/
+  remediation: >-
+    Retry with a browser User-Agent. This is an EDGE response, not an API error: the body is
+    the Cloudflare "Attention Required!" HTML interstitial with content-type text/html, not the
+    WP_Error JSON envelope. Any client that assumes a JSON body on a 403 from this host will
+    fail to parse it. Observed intermittently on every path including /wp-json/ itself.
+  note: >-
+    The most important runtime hazard on this API. It is emitted by Cloudflare in front of WP
+    Engine, is not documented anywhere by Ethyreal Bio, and is the de-facto rate limiter (see
+    rate-limits/ethyreal-bio-rate-limits.yml).
+undocumented: true
+undocumented_note: >-
+  Ethyreal Bio publishes no error reference of any kind. Every entry above was derived from the
+  route descriptor and then CONFIRMED by making the failing request; nothing here is inferred
+  from WordPress documentation alone.

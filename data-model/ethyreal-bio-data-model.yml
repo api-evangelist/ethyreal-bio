@@ -1,0 +1,201 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/_original/ethyreal-bio-content-openapi.yml route parameters and id-reference fields,
+  confirmed against live responses from https://www.ethyrealbio.com/wp-json/wp/v2 on 2026-08-12.
+note: >-
+  The WordPress REST route descriptor declares parameters but not response schemas, so the
+  entity shapes below were confirmed by reading real responses rather than inferred from the
+  spec alone. Counts are the X-WP-Total observed on 2026-08-12.
+identifiers:
+  style: integer
+  note: >-
+    Every entity is keyed by a positive integer `id`, unique per post type or taxonomy. There
+    are no prefixed or namespaced ids. Entities also carry a URL-safe `slug` that is unique
+    within its collection and is the stable human-facing key; `link` is the canonical public URL.
+entities:
+- name: post
+  route: /wp/v2/posts
+  tag: News
+  count: 2
+  description: >-
+    Company press releases. This is the substantive content on the site — the 10 June 2026
+    emergence-from-stealth announcement and the 15 June 2026 ENDO 2026 preclinical data release
+    for ETHY-001.
+  key_fields:
+  - id
+  - date / date_gmt / modified
+  - slug
+  - link
+  - title.rendered
+  - content.rendered
+  - excerpt.rendered
+  - categories[]
+  - tags[]
+  - author
+  - featured_media
+- name: page
+  route: /wp/v2/pages
+  tag: Pages
+  count: 10
+  description: >-
+    Corporate pages: Home, About Us, Our Program, Disease Areas, Patients, News, Contact,
+    Expanded Access Policy, Terms of Use, Privacy Policy.
+  key_fields: [id, slug, link, title.rendered, content.rendered, parent, menu_order]
+- name: team_member
+  route: /wp/v2/team_member
+  tag: People
+  count: 10
+  description: >-
+    Leadership and board-of-directors profiles — the custom post type registered by the Avada
+    theme. Carries name, credentials and biography as rendered HTML.
+  key_fields: [id, slug, link, title.rendered, content.rendered, team_group, featured_media]
+- name: team_group
+  route: /wp/v2/team_group
+  tag: People
+  count: 2
+  taxonomy: true
+  description: >-
+    The taxonomy that groups team members. Two terms are published: "Leadership" (4 members) and
+    "Board of Directors" (7 members) — eleven assignments across ten people, so at least one
+    person sits in both.
+  key_fields: [id, name, slug, count]
+- name: media
+  route: /wp/v2/media
+  tag: Media
+  count: 57
+  description: >-
+    The media library — leadership and board headshots, the site logo, hero artwork and program
+    imagery. Each item exposes source_url plus a media_details.sizes map of generated renditions.
+  key_fields: [id, slug, source_url, mime_type, alt_text, media_details.sizes, post]
+- name: category
+  route: /wp/v2/categories
+  tag: Taxonomy
+  count: 3
+  taxonomy: true
+  description: >-
+    Post categories. "News" (id 20) carries the press releases; the other two are the unused
+    WordPress defaults.
+  key_fields: [id, name, slug, count, parent]
+- name: tag
+  route: /wp/v2/tags
+  tag: Taxonomy
+  count: 0
+  taxonomy: true
+  description: Post tags. Registered but unused — no terms are published.
+- name: comment
+  route: /wp/v2/comments
+  tag: Comments
+  count: 0
+  description: >-
+    Registered and anonymously readable but empty. Commenting is not used on this site.
+- name: avada_faq
+  route: /wp/v2/avada_faq
+  tag: FAQ
+  count: 0
+  description: >-
+    Avada theme FAQ custom post type. The route exists because the theme registers it; no items
+    are published.
+- name: avada_portfolio
+  route: /wp/v2/avada_portfolio
+  tag: Portfolio
+  count: 0
+  description: >-
+    Avada theme portfolio custom post type, with portfolio_category, portfolio_skills and
+    portfolio_tags taxonomies. All are empty — theme scaffolding rather than company content.
+- name: user
+  route: /wp/v2/users
+  tag: Users
+  count: null
+  gated: true
+  description: >-
+    WordPress author accounts. Closed: an anonymous GET returns 403 aios_user_lists_forbidden
+    from the All-In-One Security plugin, so the entity could not be read and no count is known.
+- name: setting
+  route: /wp/v2/settings
+  tag: Settings
+  count: null
+  gated: true
+  description: Singleton site-settings document. Anonymous GET returns 401 rest_forbidden.
+relationships:
+- from: post
+  to: category
+  type: has_many
+  via: categories
+  note: Array of category ids. Confirmed live — post 441 carries categories [20] ("News").
+- from: post
+  to: tag
+  type: has_many
+  via: tags
+- from: post
+  to: media
+  type: has_one
+  via: featured_media
+  note: Integer media id, or 0 when no featured image is set.
+- from: post
+  to: user
+  type: belongs_to
+  via: author
+  note: >-
+    The id resolves, but the target entity cannot be dereferenced anonymously because
+    /wp/v2/users is closed. A dangling reference in practice.
+- from: post
+  to: comment
+  type: has_many
+  via: comment.post
+  note: Inverse — comments carry a `post` id. No comments exist.
+- from: page
+  to: page
+  type: belongs_to
+  via: parent
+  note: Self-referential hierarchy. All ten pages are top level (parent 0).
+- from: page
+  to: media
+  type: has_one
+  via: featured_media
+- from: team_member
+  to: team_group
+  type: has_many
+  via: team_group
+  note: >-
+    Array of term ids. Confirmed live — team member 236 (Nick Williams) carries team_group [23]
+    ("Board of Directors").
+- from: team_member
+  to: media
+  type: has_one
+  via: featured_media
+  note: >-
+    Headshots are in the media library, but featured_media was observed as 0 on the sampled
+    team member — the theme renders portraits through its own field rather than the WordPress
+    featured image, so this link is not reliably populated.
+- from: media
+  to: post
+  type: belongs_to
+  via: post
+  note: The post or page the attachment was uploaded to; 0 when unattached.
+- from: category
+  to: category
+  type: belongs_to
+  via: parent
+  note: Self-referential. All three categories are top level.
+- from: avada_portfolio
+  to: portfolio_category
+  type: has_many
+  via: portfolio_category
+- from: avada_faq
+  to: faq_category
+  type: has_many
+  via: faq_category
+traversal:
+  hypermedia: >-
+    Every relationship is also expressed as a URL in the resource's _links object, and ?_embed
+    inlines the targets under _embedded — one request instead of N+1. Prefer _embed over
+    following ids by hand.
+  search_index:
+    route: /wp/v2/search
+    note: >-
+      Returns a flattened {id, title, url, type, subtype} projection across posts, pages, team
+      members and taxonomy terms, with _links.self pointing back at the full resource. This is
+      the cheapest entry point for an agent that does not already know the shape of the site.
+subway: null
+subway_note: No subway/ visual exists for this repository.

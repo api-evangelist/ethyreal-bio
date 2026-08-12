@@ -1,0 +1,52 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  Registry searches against npm, PyPI, RubyGems, crates.io, Packagist, NuGet, Maven Central and
+  pkg.go.dev, plus a GitHub organization search, 2026-08-12.
+package_count: 0
+official_package_count: 0
+note: >-
+  Ethyreal Bio publishes NO client libraries in any package registry, and no SDK exists to
+  record a version or release date for. This is the expected result: Ethyreal Bio is a
+  clinical-stage biotechnology company with no developer program and no API product. The only
+  machine-readable surface on ethyrealbio.com is the WordPress REST API the CMS exposes, which
+  is consumed with a generic HTTP client — WordPress core ships no first-party SDK, and
+  Ethyreal Bio has published no wrapper of its own. No SDKs pointer was written into apis.yml
+  because there is no SDK.
+packages: []
+registries_searched:
+- registry: npm
+  query: ethyreal
+  results: 0
+  url: https://registry.npmjs.org/-/v1/search?text=ethyreal
+- registry: pypi
+  query: ethyreal
+  results: 0
+  url: https://pypi.org/pypi/ethyreal/json
+  status: 404
+- registry: rubygems
+  query: ethyreal
+  results: 0
+- registry: crates.io
+  query: ethyreal
+  results: 0
+- registry: packagist
+  query: ethyreal
+  results: 0
+- registry: nuget
+  query: ethyreal
+  results: 0
+- registry: maven-central
+  query: ethyreal
+  results: 0
+- registry: pkg.go.dev
+  query: ethyreal
+  results: 0
+source_code:
+- host: github.com
+  organization: null
+  note: >-
+    No GitHub organization exists for Ethyreal Bio. A GitHub user search for "ethyreal" returns
+    two unrelated personal accounts, the oldest created long before the company was founded in
+    2024; neither is affiliated with ethyrealbio.com and neither was recorded. No
+    GitHubOrganization pointer was written.

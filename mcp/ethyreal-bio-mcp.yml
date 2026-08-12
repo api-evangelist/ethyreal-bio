@@ -1,0 +1,78 @@
+generated: '2026-08-12'
+method: derived
+status: candidate
+source: openapi/_original/ethyreal-bio-content-openapi.yml
+published: false
+note: >-
+  Ethyreal Bio publishes NO MCP server. The route index at https://www.ethyrealbio.com/wp-json/
+  advertises 14 namespaces and none of them is "mcp"; /.well-known/mcp.json returns 404; and
+  mcp.ethyrealbio.com is NXDOMAIN. The tool list below is a CANDIDATE derived by API Evangelist
+  from the read operations in openapi/ — it describes what an MCP server over this content
+  surface could expose, not something the company serves.
+  Because nothing is served, NO MCPServer pointer was written into apis.yml: that pointer
+  asserts the provider runs an MCP endpoint, and emitting it for a candidate would credit
+  Ethyreal Bio with an agent surface it does not have. For the same reason no tool crosswalk was
+  written — a crosswalk records divergence between a real MCP surface and a real REST surface,
+  and here only one of the two exists.
+adjacent_surface:
+  name: WordPress Abilities API
+  path: /wp-json/wp-abilities/v1/abilities
+  status: 401
+  gated: true
+  description: >-
+    The wp-abilities/v1 namespace IS present in the route index. It is the ability registry that
+    a WordPress MCP adapter would project as tools, and its presence means the site runs a
+    WordPress new enough to carry it — but it is not itself an MCP endpoint, and an anonymous
+    GET returns 401 rest_forbidden, so the registered abilities could not be enumerated. Reading
+    it would require an Application Password that Ethyreal Bio does not issue publicly.
+  companion_routes:
+  - path: /wp-json/wp-abilities/v1/categories
+    status: 401
+  - path: /wp-json/wp-abilities/v1/abilities/{name}/run
+    status: 401
+    note: The execution route. Gated, and never exercised by this pipeline.
+server:
+  name: null
+  transport: null
+  url: null
+oauth_discovery:
+  well_known_oauth_authorization_server: 404
+  well_known_oauth_protected_resource: 404
+  note: >-
+    Probed anonymously as required, on both www and apex hosts. Neither exists, so there is no
+    authorization-server metadata to feed scopes/ or authentication/.
+tools:
+- name: search_ethyreal_content
+  description: Search ethyrealbio.com across press releases, corporate pages, team profiles and taxonomy terms.
+  source_operation: openapi/ethyreal-bio-search-api-openapi.yml#getSearch
+- name: list_press_releases
+  description: List Ethyreal Bio press releases, newest first.
+  source_operation: openapi/ethyreal-bio-news-api-openapi.yml#getPosts
+- name: get_press_release
+  description: Retrieve a single press release by id, including its full rendered content.
+  source_operation: openapi/ethyreal-bio-news-api-openapi.yml#getPostsById
+- name: list_pages
+  description: List the corporate pages, including the Expanded Access Policy and Terms of Use.
+  source_operation: openapi/ethyreal-bio-pages-api-openapi.yml#getPages
+- name: get_page
+  description: Retrieve a single corporate page by id.
+  source_operation: openapi/ethyreal-bio-pages-api-openapi.yml#getPagesById
+- name: list_team_members
+  description: List the leadership and board-of-directors profiles.
+  source_operation: openapi/ethyreal-bio-people-api-openapi.yml#getTeamMember
+- name: get_team_member
+  description: Retrieve a single leadership or board profile by id.
+  source_operation: openapi/ethyreal-bio-people-api-openapi.yml#getTeamMemberById
+- name: list_team_groups
+  description: List the team groupings (Leadership, Board of Directors) and their member counts.
+  source_operation: openapi/ethyreal-bio-people-api-openapi.yml#getTeamGroup
+- name: list_media
+  description: List media-library items including leadership headshots and program artwork.
+  source_operation: openapi/ethyreal-bio-media-api-openapi.yml#getMedia
+- name: list_categories
+  description: List the content categories used to classify press releases.
+  source_operation: openapi/ethyreal-bio-taxonomy-api-openapi.yml#getCategories
+tools_note: >-
+  Read-only by design. Write operations exist on these routes but require an Application
+  Password and are deliberately excluded from the candidate tool set — no agent should be
+  offered a tool that mutates a company's public website.
