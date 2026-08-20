@@ -246,6 +246,8 @@ apis:
   humanURL: https://www.ethyrealbio.com/
   baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
