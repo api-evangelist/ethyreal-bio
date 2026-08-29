@@ -2,22 +2,11 @@ openapi: 3.2.0
 info:
   title: Ethyreal Bio Content API (WordPress REST wp/v2) Settings API
   version: wp/v2
-  summary: 'Public read surface of ethyrealbio.com content: press releases and news, corporate pages including the
-    Expanded Access Policy and Terms of Use, leadership and board-of-directors profiles, the media library, taxonomies
-    and site-wide search.'
-  description: 'Ethyreal Bio publishes www.ethyrealbio.com on WordPress (Avada theme, WP Engine hosting), which
-    exposes the WordPress REST API at https://www.ethyrealbio.com/wp-json/. The wp/v2 namespace is anonymously readable
-    and returns the company''s press releases (`posts`), corporate pages (`pages`), leadership and board profiles
-    (`team_member`, grouped by `team_group`), the media library, FAQ and portfolio custom post types, taxonomies
-    and a site-wide search endpoint as JSON.
+  summary: 'Public read surface of ethyrealbio.com content: press releases and news, corporate pages including the Expanded Access Policy and Terms of Use, leadership and board-of-directors profiles, the media library, taxonomies and site-wide search.'
+  description: 'Ethyreal Bio publishes www.ethyrealbio.com on WordPress (Avada theme, WP Engine hosting), which exposes the WordPress REST API at https://www.ethyrealbio.com/wp-json/. The wp/v2 namespace is anonymously readable and returns the company''s press releases (`posts`), corporate pages (`pages`), leadership and board profiles (`team_member`, grouped by `team_group`), the media library, FAQ and portfolio custom post types, taxonomies and a site-wide search endpoint as JSON.
 
 
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.ethyrealbio.com/wp-json/
-    on 2026-08-12 — every path, method and parameter below is taken verbatim from that descriptor. Ethyreal Bio
-    does not publish an OpenAPI definition of its own, and this is not a product API: it is the content API the
-    CMS exposes. Ethyreal Bio is a clinical-stage biotechnology company and ships no developer program, no API product
-    and no SDKs. Write operations exist on these routes but require authentication (WordPress Application Passwords
-    over HTTP Basic); `/wp/v2/users` returns 403 and `/wp/v2/settings` returns 401 anonymously.'
+    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.ethyrealbio.com/wp-json/ on 2026-08-12 — every path, method and parameter below is taken verbatim from that descriptor. Ethyreal Bio does not publish an OpenAPI definition of its own, and this is not a product API: it is the content API the CMS exposes. Ethyreal Bio is a clinical-stage biotechnology company and ships no developer program, no API product and no SDKs. Write operations exist on these routes but require authentication (WordPress Application Passwords over HTTP Basic); `/wp/v2/users` returns 403 and `/wp/v2/settings` returns 401 anonymously.'
   contact:
     name: Ethyreal Bio
     url: https://www.ethyrealbio.com/
@@ -129,13 +118,13 @@ paths:
                   description: The ID of the page that should display the latest posts
                 default_ping_status:
                   type: string
-                  enum: &id001
+                  enum:
                   - open
                   - closed
                   description: Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
                 default_comment_status:
                   type: string
-                  enum: &id002
+                  enum:
                   - open
                   - closed
                   description: Allow people to submit comments on new posts.
@@ -226,11 +215,15 @@ paths:
                   description: The ID of the page that should display the latest posts
                 default_ping_status:
                   type: string
-                  enum: *id001
+                  enum:
+                  - open
+                  - closed
                   description: Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
                 default_comment_status:
                   type: string
-                  enum: *id002
+                  enum:
+                  - open
+                  - closed
                   description: Allow people to submit comments on new posts.
                 site_logo:
                   type: integer
@@ -319,11 +312,15 @@ paths:
                   description: The ID of the page that should display the latest posts
                 default_ping_status:
                   type: string
-                  enum: *id001
+                  enum:
+                  - open
+                  - closed
                   description: Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
                 default_comment_status:
                   type: string
-                  enum: *id002
+                  enum:
+                  - open
+                  - closed
                   description: Allow people to submit comments on new posts.
                 site_logo:
                   type: integer
@@ -349,22 +346,15 @@ paths:
       security:
       - applicationPassword: []
 components:
-  securitySchemes:
-    applicationPassword:
-      type: http
-      scheme: basic
-      description: WordPress Application Passwords, advertised by the site at https://www.ethyrealbio.com/wp-json/
-        under authentication.application-passwords; authorization endpoint https://www.ethyrealbio.com/wp-admin/authorize-application.php.
-        Read operations on wp/v2 content routes are anonymous.
   responses:
-    BadRequest:
-      description: Invalid parameter (rest_invalid_param).
+    Unauthorized:
+      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/WpError'
-    Unauthorized:
-      description: Authentication required or rejected (rest_forbidden / rest_not_logged_in).
+    BadRequest:
+      description: Invalid parameter (rest_invalid_param).
       content:
         application/json:
           schema:
@@ -397,3 +387,8 @@ components:
           properties:
             status:
               type: integer
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords, advertised by the site at https://www.ethyrealbio.com/wp-json/ under authentication.application-passwords; authorization endpoint https://www.ethyrealbio.com/wp-admin/authorize-application.php. Read operations on wp/v2 content routes are anonymous.
