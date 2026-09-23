@@ -1,18 +1,7 @@
 {
   "provider": "ethyreal-bio",
   "sources": [
-    "ethyreal-bio-comments-api-openapi.yml",
-    "ethyreal-bio-discovery-api-openapi.yml",
-    "ethyreal-bio-faq-api-openapi.yml",
-    "ethyreal-bio-media-api-openapi.yml",
-    "ethyreal-bio-news-api-openapi.yml",
-    "ethyreal-bio-pages-api-openapi.yml",
-    "ethyreal-bio-people-api-openapi.yml",
-    "ethyreal-bio-portfolio-api-openapi.yml",
-    "ethyreal-bio-search-api-openapi.yml",
-    "ethyreal-bio-settings-api-openapi.yml",
-    "ethyreal-bio-taxonomy-api-openapi.yml",
-    "ethyreal-bio-users-api-openapi.yml"
+    "_ae-authored/ethyreal-bio-content-openapi.yml"
   ],
   "outputs": [
     "ethyreal-bio-comments-api-openapi.yml",
@@ -32,7 +21,22 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ethyreal-bio-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "ethyreal-bio-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-faq-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-people-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-portfolio-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ethyreal-bio-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
