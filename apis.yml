@@ -65,225 +65,20 @@ tags:
 - Health
 - Content
 apis:
-- aid: ethyreal-bio:ethyreal-bio-comments-api
-  name: Ethyreal Bio Comments API
-  description: The Comments API from Ethyreal Bio — 7 operation(s) for comments on the
-    ethyrealbio.com WordPress REST surface. The collection is anonymously readable and
-    currently returns zero items; write operations require authentication.
-  humanURL: https://www.ethyrealbio.com/news/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
+- aid: ethyreal-bio:ethyrealbio-com-website-wordpress-rest
+  name: Ethyreal Bio Website (WordPress REST)
+  description: 'The public WordPress REST API (wp-json) of the Ethyreal Bio website at www.ethyrealbio.com:
+    the route index of the site''s content management system, catalogued as one site surface rather than
+    as separate APIs.'
+  baseURL: https://www.ethyrealbio.com/wp-json
   tags:
-  - Comments
+  - WordPress
+  x-surface: platform-generated
   properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-comments-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-discovery-api
-  name: Ethyreal Bio Discovery API
-  description: The Discovery API from Ethyreal Bio — 6 operation(s) exposing the WordPress
-    content-type, taxonomy and post-status registries that describe the rest of the
-    ethyrealbio.com content surface.
-  humanURL: https://www.ethyrealbio.com/news/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Discovery
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-discovery-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-faq-api
-  name: Ethyreal Bio FAQ API
-  description: The FAQ API from Ethyreal Bio — 14 operation(s) over the Avada theme
-    avada_faq custom post type and its faq_category taxonomy. The routes are registered and
-    anonymously readable but currently hold zero published items.
-  humanURL: https://www.ethyrealbio.com/patients/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - FAQ
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-faq-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-media-api
-  name: Ethyreal Bio Media API
-  description: The Media API from Ethyreal Bio — 8 operation(s) over the ethyrealbio.com
-    media library, which holds 57 items including the leadership and board headshots and
-    the ETHY-001 program artwork.
-  humanURL: https://www.ethyrealbio.com/news/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Media
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-media-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-news-api
-  name: Ethyreal Bio News API
-  description: The News API from Ethyreal Bio — 7 operation(s) over the WordPress posts
-    collection, which carries the company's press releases including the June 2026
-    emergence-from-stealth announcement and the ENDO 2026 preclinical data release.
-  humanURL: https://www.ethyrealbio.com/news/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - News
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-news-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-pages-api
-  name: Ethyreal Bio Pages API
-  description: The Pages API from Ethyreal Bio — 7 operation(s) over the corporate pages,
-    including About Us, Our Program, Disease Areas, Patients, Contact, the Expanded Access
-    Policy, the Terms of Use and the Privacy Policy.
-  humanURL: https://www.ethyrealbio.com/about-us/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Pages
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-pages-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-people-api
-  name: Ethyreal Bio People API
-  description: The People API from Ethyreal Bio — 14 operation(s) over the team_member
-    custom post type and its team_group taxonomy, which publish the company's ten
-    leadership and board-of-directors profiles grouped into Leadership and Board of
-    Directors.
-  humanURL: https://www.ethyrealbio.com/about-us/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - People
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-people-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-portfolio-api
-  name: Ethyreal Bio Portfolio API
-  description: The Portfolio API from Ethyreal Bio — 28 operation(s) over the Avada theme
-    avada_portfolio custom post type and its portfolio_category, portfolio_skills and
-    portfolio_tags taxonomies. The routes are registered and anonymously readable but
-    currently hold zero published items.
-  humanURL: https://www.ethyrealbio.com/our-program/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Portfolio
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-portfolio-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-search-api
-  name: Ethyreal Bio Search API
-  description: The Search API from Ethyreal Bio — 1 operation providing site-wide search
-    across the ethyrealbio.com posts, pages, team members and taxonomy terms.
-  humanURL: https://www.ethyrealbio.com/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Search
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-search-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-settings-api
-  name: Ethyreal Bio Settings API
-  description: The Settings API from Ethyreal Bio — 4 operation(s) over the site settings
-    document. The route is authentication-gated; an anonymous GET returns HTTP 401
-    rest_forbidden.
-  humanURL: https://www.ethyrealbio.com/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Settings
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-settings-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-taxonomy-api
-  name: Ethyreal Bio Taxonomy API
-  description: The Taxonomy API from Ethyreal Bio — 14 operation(s) over the categories and
-    tags that classify ethyrealbio.com content. Three categories are published, of which
-    News carries the press releases.
-  humanURL: https://www.ethyrealbio.com/news/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - Taxonomy
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-taxonomy-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
-- aid: ethyreal-bio:ethyreal-bio-users-api
-  name: Ethyreal Bio Users API
-  description: The Users API from Ethyreal Bio — 21 operation(s) over WordPress author
-    accounts and their application passwords. The route is authentication-gated; an
-    anonymous GET returns HTTP 403 rest_user_cannot_view.
-  humanURL: https://www.ethyrealbio.com/
-  baseURL: https://www.ethyrealbio.com/wp-json/wp/v2
-  tags:
-  - User
-  tags_raw:
-  - Users
-  properties:
-  - type: OpenAPI
-    url: openapi/ethyreal-bio-users-api-openapi.yml
-  - type: DataModel
-    url: data-model/ethyreal-bio-data-model.yml
-  - type: ErrorCatalog
-    url: errors/ethyreal-bio-problem-types.yml
-  - type: Examples
-    url: examples/ethyreal-bio-examples.yml
+  - type: Documentation
+    url: https://www.ethyrealbio.com/wp-json
+  x-platform: wordpress
+  x-platform-surface: rest
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -336,6 +131,10 @@ common:
   url: plans/ethyreal-bio-plans-pricing.yml
 - type: AgentSkill
   url: skills/_index.yml
+- type: DataModel
+  url: data-model/ethyreal-bio-data-model.yml
+- type: ErrorCatalog
+  url: errors/ethyreal-bio-problem-types.yml
 x-enrichment:
   date: '2026-08-12'
   status: enriched
